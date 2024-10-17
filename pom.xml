@@ -72,9 +72,7 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <mainClass>ssn.video.editor.Main</mainClass> <!-- Replace with your fully qualified main class -->
-                </configuration>
+                <!-- No mainClass specified here -->
             </plugin>
             <!-- Add more plugins here -->
         </plugins>
