@@ -12,17 +12,35 @@
 
     <!-- Project description -->
     <name>Video Editing Software</name>
-    <description>A video editing software forged in java with GUI based components. It can perform basic editing operations.</description>
+    <description>A video editing software forged in Java with GUI-based components. It can perform basic editing operations.</description>
 
     <!-- Java version compatibility -->
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <javafx.version>20.0.1</javafx.version>  <!-- Specify JavaFX version -->
     </properties>
 
     <!-- Dependencies -->
     <dependencies>
-        <!-- Example dependency: JUnit for testing -->
+        <!-- JavaFX Dependencies -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- Existing Dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -44,14 +62,12 @@
             <artifactId>ffmpeg-platform</artifactId>
             <version>6.1.1-1.5.10</version>
         </dependency>
-
-        <!-- Add more dependencies here -->
     </dependencies>
 
     <!-- Build configuration -->
     <build>
         <plugins>
-            <!-- Example plugin: Maven compiler -->
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -61,6 +77,8 @@
                     <target>21</target>
                 </configuration>
             </plugin>
+
+            <!-- Exec Maven Plugin for JavaFX -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -73,10 +91,15 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ssn.video.editor.Main</mainClass>
+                    <mainClass>ssn.video.editor.Gui</mainClass>
+                    <arguments>
+                        <argument>--module-path</argument>
+                        <argument>${java.home}/lib</argument>
+                        <argument>--add-modules</argument>
+                        <argument>javafx.controls,javafx.graphics,javafx.media</argument>
+                    </arguments>
                 </configuration>
             </plugin>
-            <!-- Add more plugins here -->
         </plugins>
     </build>
 
