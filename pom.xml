@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+                             http://www.maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <!-- Basic project information -->
     <modelVersion>4.0.0</modelVersion>
@@ -91,7 +91,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ssn.video.editor.VideoEditorCLI</mainClass>
+                    <mainClass>ssn.video.editor.Gui</mainClass>
                     <arguments>
                         <argument>--module-path</argument>
                         <argument>${java.home}/lib</argument>
