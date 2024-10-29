@@ -91,7 +91,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ssn.video.editor.Gui</mainClass>
+                    <mainClass>ssn.video.editor.VideoEditorCLI</mainClass>
                     <arguments>
                         <argument>--module-path</argument>
                         <argument>${java.home}/lib</argument>

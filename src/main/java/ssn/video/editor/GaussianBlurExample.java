@@ -131,6 +131,49 @@ public class GaussianBlurExample {
     }
     
 
+    public void applyBlurToVideoWithTime(String inputFilePath, String outputFilePath, int startSeconds, int endSeconds) {
+        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFilePath)) {
+            grabber.start();
+    
+            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
+                recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
+                recorder.setFormat("mp4");
+                recorder.setFrameRate(grabber.getFrameRate());
+                recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P);
+                recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
+    
+                recorder.start();
+    
+                OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
+                Frame frame;
+                long startTime = startSeconds * 1_000_000L;
+                long endTime = endSeconds * 1_000_000L;
+    
+                while ((frame = grabber.grabImage()) != null) {
+                    long timestamp = grabber.getTimestamp();
+                    Mat matFrame = converter.convert(frame);
+                    Mat outputFrame = new Mat();
+    
+                    if (timestamp >= startTime && timestamp <= endTime) {
+                        // Apply Gaussian blur
+                        opencv_imgproc.GaussianBlur(matFrame, outputFrame, new Size(49, 49), 0);
+                    } else {
+                        outputFrame = matFrame;
+                    }
+    
+                    recorder.setTimestamp(timestamp); // Maintain sync
+                    recorder.record(converter.convert(outputFrame));
+                }
+    
+                System.out.println("Gaussian blur applied successfully from " + startSeconds + "s to " + endSeconds + "s and saved as " + outputFilePath);
+            }
+        } catch (Exception e) {
+            System.err.println("Error while applying blur to video: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+
     private void createOutputDir() {
         File outputDir = new File("output");
         if (!outputDir.exists()) {
