@@ -132,10 +132,15 @@ public class GaussianBlurExample {
     
 
     public void applyBlurToVideoWithTime(String inputFilePath, String outputFilePath, int startSeconds, int endSeconds) {
-        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFilePath)) {
+        File inputFile = null;
+        try{inputFile = getFileFromResources(inputFilePath);}
+        catch(IOException e){
+            System.out.println(e);
+        }
+        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFile)) {
             grabber.start();
     
-            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
+            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder("output/"+outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
                 recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
                 recorder.setFormat("mp4");
                 recorder.setFrameRate(grabber.getFrameRate());
