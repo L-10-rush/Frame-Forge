@@ -133,9 +133,11 @@ public class GaussianBlurExample {
 
     public void applyBlurToVideoWithTime(String inputFilePath, String outputFilePath, int startSeconds, int endSeconds) {
         File inputFile = null;
+        createOutputDir();
         try{inputFile = getFileFromResources(inputFilePath);}
         catch(IOException e){
-            System.out.println(e);
+            System.err.println("Error while loading inputFile in function -- applying blur to video with time: "+e.getMessage());
+            e.printStackTrace();
         }
         try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFile)) {
             grabber.start();
