@@ -3,16 +3,19 @@ package ssn.video.editor;
 import java.io.IOException;
 import java.util.Scanner;
 
+import ssn.video.filters.GaussianBlur;
+import ssn.video.filters.Filter;
+
 public class VideoEditorCLI {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        GaussianBlurExample gaussianBlurExample = new GaussianBlurExample();
+        Filter filter = new GaussianBlur();
 
         while (true) {
             // Display menu
             System.out.println("Select an option:");
-            System.out.println("1. Apply Gaussian Blur (with time range)");
+            System.out.println("1. Apply Gaussian Blur");
             System.out.println("2. Trim Video");
             System.out.println("0. Exit");
 
@@ -25,11 +28,8 @@ public class VideoEditorCLI {
                 break;
             }
 
-            System.out.print("Enter the input file name (video): ");
+            System.out.print("Enter the input file name: ");
             String inputFileName = scanner.nextLine();
-
-            System.out.print("Enter the output file name: ");
-            String outputFileName = scanner.nextLine();
 
             try {
                 if (choice == 1) {
@@ -40,13 +40,17 @@ public class VideoEditorCLI {
                     scanner.nextLine(); // Consume newline character
 
                     System.out.println("Applying Gaussian Blur...");
-                    gaussianBlurExample.applyBlurToVideoWithTime(inputFileName, outputFileName, startSeconds, endSeconds);
+                    filter = new GaussianBlur(27, 4, 8);  // Assuming GaussianBlur has a constructor with an integer argument
+                    filter.applyFilter(inputFileName);
                 } else if (choice == 2) {
                     System.out.print("Enter start time for trimming in seconds: ");
                     int startSeconds = scanner.nextInt();
                     System.out.print("Enter end time for trimming in seconds: ");
                     int endSeconds = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
+
+                    System.out.print("Enter the output file name: ");
+                    String outputFileName = scanner.nextLine();
 
                     System.out.println("Trimming video...");
                     VideoTrimmer.trimVideo(inputFileName, outputFileName, startSeconds, endSeconds);

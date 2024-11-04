@@ -1,4 +1,4 @@
-package ssn.video.editor;
+package ssn.video.filters;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,39 +17,70 @@ import org.bytedeco.opencv.global.opencv_imgproc;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.Size;
 
-public class GaussianBlurExample {
+public class GaussianBlur implements Filter{
+    private int kernelSize;
+    private int startTime;
+    private int endTime;
 
-    public void GBlur(String inputFilePath) throws IOException {
-        File inputFile = getFileFromResources(inputFilePath);
-        
-        // Check if input file exists
+    public GaussianBlur(int kernelSize){
+        if (kernelSize%2==0) throw new IllegalArgumentException("KERNEL SIZE MUST BE ODD");
+        this.kernelSize = kernelSize;
+        this.startTime = 0;
+        this.endTime = 0;
+    }
+    public GaussianBlur(int kernelSize, int startTime, int endTime){
+        if (kernelSize%2==0) throw new IllegalArgumentException("KERNEL SIZE MUST BE ODD");
+        this.kernelSize = kernelSize;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    public GaussianBlur(int startTime, int endTime){
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    public GaussianBlur(){
+        this.kernelSize = 15;
+        this.startTime = 0;
+        this.endTime = 0;
+    }
+
+    @Override
+    public void applyFilter(String inputFilePath){
+        File inputFile = null;
+        try {
+            inputFile = getFileFromResources(inputFilePath);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         if (inputFile == null || !inputFile.exists()) {
             System.out.println("File not found: " + inputFilePath);
             return;
         }
 
-        // Determine if it's an image or video based on extension
         String extension = getFileExtension(inputFile);
+        createOutputDir();
+        String outputFilePath = "output/"+inputFilePath+"_processed"+extension;
+
         if (isImageFile(extension)) {
-            applyBlurToImage(inputFile); // Pass file directly
-        } else if (isVideoFile(extension)) {
-            applyBlurToVideo(inputFile); // Pass file directly
+            applyBlurToImage(inputFile, outputFilePath, kernelSize);
+        } else if (isVideoFile(extension) && startTime-endTime == 0) {
+            applyBlurToVideo(inputFile, outputFilePath, kernelSize);
+        } else if (isVideoFile(extension) && startTime-endTime != 0) {
+            applyBlurToVideoWithTime(inputFile, outputFilePath,startTime, endTime, kernelSize);
         } else {
             System.out.println("Unsupported file type. Please provide a valid image or video file.");
         }
     }
 
-    public File getFileFromResources(String resourceName) throws IOException {
+    private File getFileFromResources(String resourceName) throws IOException {
         InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourceName);
         if (resourceStream == null) {
             System.out.println("Resource not found: " + resourceName);
             return null;
         }
-
-        // Create a temporary file with the correct extension
         String extension = resourceName.substring(resourceName.lastIndexOf("."));
         File tempFile = Files.createTempFile("temp-", extension).toFile();
-
         Files.copy(resourceStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         return tempFile;
     }
@@ -70,82 +101,52 @@ public class GaussianBlurExample {
         return lastIndex == -1 ? "" : name.substring(lastIndex);
     }
 
-    private void applyBlurToImage(File imageFile) {
+    private void applyBlurToImage(File imageFile, String outputFilePath, int kernelSize) {
         Mat image = opencv_imgcodecs.imread(imageFile.getAbsolutePath());
-
         if (image.empty()) {
             System.out.println("Image not found or couldn't be loaded!");
             return;
         }
 
         Mat blurredImage = new Mat();
-        opencv_imgproc.GaussianBlur(image, blurredImage, new Size(49, 49), 0);
+        opencv_imgproc.GaussianBlur(image, blurredImage, new Size(kernelSize, kernelSize), 0);
 
-        String outputImagePath = "output/blurred_image.jpg";
-        createOutputDir();
-        opencv_imgcodecs.imwrite(outputImagePath, blurredImage);
-
-        System.out.println("Gaussian blurred image saved at: " + outputImagePath);
+        opencv_imgcodecs.imwrite(outputFilePath, blurredImage);
+        System.out.println("Gaussian blurred image saved at: " + outputFilePath);
     }
 
-    private void applyBlurToVideo(File videoFile) {
-        String outputVideoPath = "output/blurred_video.mp4";
-        createOutputDir();  // Ensure the output directory exists
-    
-        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoFile)) {
+    private void applyBlurToVideo(File videoFile, String outputVideoPath, int kernelSize) {
+        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoFile);
+             FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputVideoPath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
+            
             grabber.start();
-    
-            // Set up the recorder with necessary configurations
-            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputVideoPath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
-                recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264); // H264 codec
-                recorder.setFormat("mp4");
-                recorder.setFrameRate(grabber.getFrameRate());
-                recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P); // Ensure compatibility
-                recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC); // Set audio codec if you want to include audio
-    
-                recorder.start();
-    
-                OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
-                Frame frame;
-    
-                while ((frame = grabber.grabImage()) != null) {
-                    Mat matFrame = converter.convert(frame);
-                    Mat blurredFrame = new Mat();
-    
-                    // Apply Gaussian blur
-                    opencv_imgproc.GaussianBlur(matFrame, blurredFrame, new Size(49, 49), 0);
-                    
-                    // Convert blurred Mat back to Frame and write to output
-                    recorder.record(converter.convert(blurredFrame));
-                }
-    
-                System.out.println("Gaussian blurred video saved at: " + outputVideoPath);
-            } catch (FFmpegFrameRecorder.Exception e) {
-                System.err.println("Error while recording: " + e.getMessage());
-                e.printStackTrace();
+            setupRecorder(recorder, grabber.getFrameRate());
+
+            OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
+            Frame frame;
+            while ((frame = grabber.grabImage()) != null) {
+                Mat matFrame = converter.convert(frame);
+                Mat blurredFrame = new Mat();
+                opencv_imgproc.GaussianBlur(matFrame, blurredFrame, new Size(kernelSize, kernelSize), 0);
+                recorder.record(converter.convert(blurredFrame));
             }
+
+            System.out.println("Gaussian blurred video saved at: " + outputVideoPath);
         } catch (Exception e) {
             System.err.println("Error while applying blur to video: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    
 
-    public void applyBlurToVideoWithTime(String inputFilePath, String outputFilePath, int startSeconds, int endSeconds) {
-        File inputFile = null;
-        createOutputDir();
-        try{inputFile = getFileFromResources(inputFilePath);}
-        catch(IOException e){
-            System.err.println("Error while loading inputFile in function -- applying blur to video with time: "+e.getMessage());
-            e.printStackTrace();
-        }
+    public void applyBlurToVideoWithTime(File inputFile, String outputFilePath, int startSeconds, int endSeconds, int kernelSize) {
         try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFile)) {
             grabber.start();
     
-            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder("output/"+outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
+            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
                 recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
                 recorder.setFormat("mp4");
-                recorder.setFrameRate(grabber.getFrameRate());
+                int frameRate = (int) (grabber.getFrameRate() > 0 ? grabber.getFrameRate() : 30);
+                recorder.setFrameRate(frameRate);
                 recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P);
                 recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
     
@@ -153,17 +154,17 @@ public class GaussianBlurExample {
     
                 OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
                 Frame frame;
-                long startTime = startSeconds * 1_000_000L;
-                long endTime = endSeconds * 1_000_000L;
+                long xstartTime = startSeconds * 1_000_000L;
+                long xendTime = endSeconds * 1_000_000L;
     
                 while ((frame = grabber.grabImage()) != null) {
                     long timestamp = grabber.getTimestamp();
                     Mat matFrame = converter.convert(frame);
                     Mat outputFrame = new Mat();
     
-                    if (timestamp >= startTime && timestamp <= endTime) {
+                    if (timestamp >= xstartTime && timestamp <= xendTime) {
                         // Apply Gaussian blur
-                        opencv_imgproc.GaussianBlur(matFrame, outputFrame, new Size(49, 49), 0);
+                        opencv_imgproc.GaussianBlur(matFrame, outputFrame, new Size(kernelSize, kernelSize), 0);
                     } else {
                         outputFrame = matFrame;
                     }
@@ -180,6 +181,15 @@ public class GaussianBlurExample {
         }
     }
     
+
+    private void setupRecorder(FFmpegFrameRecorder recorder, double frameRate) throws Exception {
+        recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
+        recorder.setFormat("mp4");
+        recorder.setFrameRate(frameRate);
+        recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P);
+        recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
+        recorder.start();
+    }
 
     private void createOutputDir() {
         File outputDir = new File("output");
