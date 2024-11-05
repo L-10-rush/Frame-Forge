@@ -2,9 +2,6 @@ package ssn.video.filters;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 import org.bytedeco.ffmpeg.global.avcodec;
 import org.bytedeco.ffmpeg.global.avutil;
@@ -17,7 +14,7 @@ import org.bytedeco.opencv.global.opencv_imgproc;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.Size;
 
-public class GaussianBlur implements Filter{
+public class GaussianBlur extends BaseFilter{
     private int kernelSize;
     private int startTime;
     private int endTime;
@@ -71,34 +68,6 @@ public class GaussianBlur implements Filter{
         } else {
             System.out.println("Unsupported file type. Please provide a valid image or video file.");
         }
-    }
-
-    private File getFileFromResources(String resourceName) throws IOException {
-        InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourceName);
-        if (resourceStream == null) {
-            System.out.println("Resource not found: " + resourceName);
-            return null;
-        }
-        String extension = resourceName.substring(resourceName.lastIndexOf("."));
-        File tempFile = Files.createTempFile("temp-", extension).toFile();
-        Files.copy(resourceStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        return tempFile;
-    }
-
-    private boolean isImageFile(String extension) {
-        return extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".jpeg") ||
-               extension.equalsIgnoreCase(".png") || extension.equalsIgnoreCase(".bmp");
-    }
-
-    private boolean isVideoFile(String extension) {
-        return extension.equalsIgnoreCase(".mp4") || extension.equalsIgnoreCase(".avi") ||
-               extension.equalsIgnoreCase(".mkv") || extension.equalsIgnoreCase(".mov");
-    }
-
-    private String getFileExtension(File file) {
-        String name = file.getName();
-        int lastIndex = name.lastIndexOf(".");
-        return lastIndex == -1 ? "" : name.substring(lastIndex);
     }
 
     private void applyBlurToImage(File imageFile, String outputFilePath, int kernelSize) {
@@ -178,23 +147,6 @@ public class GaussianBlur implements Filter{
         } catch (Exception e) {
             System.err.println("Error while applying blur to video: " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-    
-
-    private void setupRecorder(FFmpegFrameRecorder recorder, double frameRate) throws Exception {
-        recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
-        recorder.setFormat("mp4");
-        recorder.setFrameRate(frameRate);
-        recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P);
-        recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
-        recorder.start();
-    }
-
-    private void createOutputDir() {
-        File outputDir = new File("output");
-        if (!outputDir.exists()) {
-            outputDir.mkdirs();
         }
     }
 }

@@ -1,20 +1,27 @@
 package ssn.video.editor;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-
-import java.io.File;
 
 public class Gui extends Application {
 
@@ -166,7 +173,7 @@ public class Gui extends Application {
         frameTimeline.getChildren().clear();
         for (int i = 0; i < totalSeconds; i++) {
             Label frameLabel = new Label(Integer.toString(i));
-            frameLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5;");
+            frameLabel.setStyle("-fx-background-color: blue; -fx-padding: 5;");
             frameTimeline.getChildren().add(frameLabel);
         }
         frameTimeline.getChildren().add(currentFrameLine);
