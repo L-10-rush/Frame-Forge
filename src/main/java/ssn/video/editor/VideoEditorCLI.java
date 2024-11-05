@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import ssn.video.filters.GaussianBlur;
+import ssn.video.features.VideoTrimmer;
 import ssn.video.filters.Filter;
 
 public class VideoEditorCLI {

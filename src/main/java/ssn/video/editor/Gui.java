@@ -17,6 +17,8 @@ import java.io.File;
 public class Gui extends Application {
 
     private MediaPlayer mediaPlayer;
+    private Slider timeframeSlider;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -24,15 +26,34 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Simple Video Editor");
+        primaryStage.setTitle("FRAME FORGE");
 
         MediaView mediaView = new MediaView();
 
+        // Control Buttons
         Button playButton = new Button("Play");
         Button pauseButton = new Button("Pause");
         Button stopButton = new Button("Stop");
         Button openButton = new Button("Open File");
+        Button applyFilterButton = new Button("Apply Filter");
+        
+        // Filter ComboBox
+        ComboBox<String> filterComboBox = new ComboBox<>();
+        filterComboBox.getItems().addAll("Gaussian Blur", "Brightness/Contrast", "Sepia", "Edge Detection");
+        filterComboBox.setValue("Gaussian Blur");
 
+        // Intensity Slider
+        Label intensityLabel = new Label("Filter Intensity:");
+        Slider intensitySlider = new Slider(0, 100, 50); // Intensity range 0-100
+        intensitySlider.setShowTickLabels(true);
+        intensitySlider.setShowTickMarks(true);
+        
+        // Timeframe Slider
+        Label timeframeLabel = new Label("Time Frame (Seconds):");
+        timeframeSlider = new Slider(0, 60, 0); // Adjust the range based on video length
+        timeframeSlider.setShowTickLabels(true);
+        timeframeSlider.setShowTickMarks(true);
+        
         // Set button actions
         playButton.setOnAction(e -> {
             if (mediaPlayer != null) mediaPlayer.play();
@@ -49,53 +70,48 @@ public class Gui extends Application {
         openButton.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.m4v", "*.mov",".png",".jpg")
+                    new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.m4v", "*.mov")
             );
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             if (selectedFile != null) {
-                try{
+                try {
                     loadVideo(selectedFile, mediaView);
-                }catch(MediaException es){
-                    System.err.println("Error loading the video: " + es.getMessage());
+                } catch (MediaException es) {
+                    showErrorDialog("Error loading the video", es.getMessage());
                 }
-                
             }
         });
 
+        applyFilterButton.setOnAction(e -> {
+            String selectedFilter = filterComboBox.getValue();
+            double intensity = intensitySlider.getValue();
+            double timeframe = timeframeSlider.getValue();
+            // Implement filter application logic here
+            System.out.println("Applying filter: " + selectedFilter + " with intensity: " + intensity + " for " + timeframe + " seconds.");
+            // Example: applyFilter(selectedFilter, intensity, timeframe);
+        });
+
         // Arrange buttons in a toolbar
-        ToolBar toolBar = new ToolBar(openButton, playButton, pauseButton, stopButton);
+        ToolBar toolBar = new ToolBar(openButton, playButton, pauseButton, stopButton, new Label("Filters:"), filterComboBox, applyFilterButton);
 
-        // Add sliders for width and height adjustments
-        Label widthLabel = new Label("Width:");
-        Slider widthSlider = new Slider(100, 1600, 800);
-        widthSlider.setShowTickLabels(true);
-
-        Label heightLabel = new Label("Height:");
-        Slider heightSlider = new Slider(100, 1200, 600);
-        heightSlider.setShowTickLabels(true);
-
-        widthSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            mediaView.setFitWidth(newValue.doubleValue());
-        });
-
-        heightSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            mediaView.setFitHeight(newValue.doubleValue());
-        });
-
-        VBox slidersBox = new VBox(widthLabel, widthSlider, heightLabel, heightSlider);
+        // Layout for sliders
+        VBox slidersBox = new VBox(
+                toolBar,
+                intensityLabel, intensitySlider,
+                timeframeLabel, timeframeSlider
+        );
 
         // Layout the GUI
-        try{
+        try {
             BorderPane root = new BorderPane();
             root.setCenter(mediaView);
-            root.setTop(toolBar);
             root.setBottom(slidersBox);
 
             Scene scene = new Scene(root, 800, 600);
             primaryStage.setScene(scene);
             primaryStage.show();
-        }catch(MediaException es){
-            System.err.println("Error playing the video: " + es.getMessage());
+        } catch (MediaException es) {
+            showErrorDialog("Error playing the video", es.getMessage());
         }
     }
 
@@ -106,5 +122,18 @@ public class Gui extends Application {
         Media media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaView.setMediaPlayer(mediaPlayer);
+        
+        // Set the timeframe slider max to the video duration when loaded
+        mediaPlayer.setOnReady(() -> {
+            timeframeSlider.setMax(mediaPlayer.getTotalDuration().toSeconds());
+        });
+    }
+
+    private void showErrorDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

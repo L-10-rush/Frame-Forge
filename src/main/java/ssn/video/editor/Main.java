@@ -1,5 +1,7 @@
 package ssn.video.editor;
 
+import ssn.video.features.VideoTrimmer;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Editing Video...");
