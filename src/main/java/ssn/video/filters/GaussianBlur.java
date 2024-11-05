@@ -85,19 +85,24 @@ public class GaussianBlur extends BaseFilter{
     }
 
     private void applyBlurToVideo(File videoFile, String outputVideoPath, int kernelSize) {
-        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoFile);
-             FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputVideoPath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
-            
+        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoFile)) {
             grabber.start();
-            setupRecorder(recorder, grabber.getFrameRate());
+            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputVideoPath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
+                recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
+                recorder.setFormat("mp4");
+                recorder.setFrameRate(grabber.getFrameRate());
+                recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P);
+                recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
+                recorder.start();
 
-            OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
-            Frame frame;
-            while ((frame = grabber.grabImage()) != null) {
-                Mat matFrame = converter.convert(frame);
-                Mat blurredFrame = new Mat();
-                opencv_imgproc.GaussianBlur(matFrame, blurredFrame, new Size(kernelSize, kernelSize), 0);
-                recorder.record(converter.convert(blurredFrame));
+                OpenCVFrameConverter.ToMat converter = new OpenCVFrameConverter.ToMat();
+                Frame frame;
+                while ((frame = grabber.grabImage()) != null) {
+                    Mat matFrame = converter.convert(frame);
+                    Mat blurredFrame = new Mat();
+                    opencv_imgproc.GaussianBlur(matFrame, blurredFrame, new Size(kernelSize, kernelSize), 0);
+                    recorder.record(converter.convert(blurredFrame));
+                }
             }
 
             System.out.println("Gaussian blurred video saved at: " + outputVideoPath);
