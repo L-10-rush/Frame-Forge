@@ -2,11 +2,12 @@ package ssn.video.filters;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.bytedeco.ffmpeg.global.avcodec;
 import org.bytedeco.ffmpeg.global.avutil;
+import org.bytedeco.javacv.FFmpegFrameFilter;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
-import org.bytedeco.javacv.FFmpegFrameFilter;
 import org.bytedeco.javacv.Frame;
 
 public class BlackAndWhiteFilter extends BaseFilter {
@@ -30,7 +31,7 @@ public class BlackAndWhiteFilter extends BaseFilter {
             return;
         }
 
-        File outputFile = new File("output/bnwwwedd.mp4");
+        File outputFile = new File("output/bnwchoose.mp4");
 
         try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFile)) {
             grabber.start();

@@ -41,7 +41,9 @@ public class VideoTrimmer {
 
     public static void main(String[] args) {
         try {
-            trimVideo("src/main/resources/Video-Placeholder.mp4", "output/outputty.mp4", 4.0, 9.0);
+            trimVideo("src/main/resources/Video-Placeholder.mp4", "output/chooseFirst.mp4", 0.0, 4.0);
+            trimVideo("src/main/resources/Video-Placeholder.mp4", "output/bnwBasechoose.mp4", 4.0, 9.0);
+            trimVideo("src/main/resources/bad.mp4", "output/thankyou.mp4", 5.0, 9.0);
         } catch (Exception e) {
             e.printStackTrace();
         }

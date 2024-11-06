@@ -1,5 +1,7 @@
 package ssn.video.features;
 
+import java.io.File;
+
 import org.bytedeco.ffmpeg.global.avcodec;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
@@ -12,8 +14,10 @@ public class VideoMerger {
 
         try {
             // Loop through each input file
+            File inputFile = null;
             for (String inputFilePath : inputFilePaths) {
-                try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFilePath)) {
+                inputFile = new File(inputFilePath);
+                try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFile)) {
                     grabber.start();
 
                     // Initialize the recorder with properties of the first video
@@ -47,13 +51,14 @@ public class VideoMerger {
         try {
             // Paths to the videos you want to merge
             String[] inputVideos = {
-                "output/outputty.mp4",
-                "src/main/resources/bad.mp4"
-                // Add more paths as needed
+                "output/chooseFirst.mp4",
+                "src/main/resources/bnwBasechoose.mp4",
+                "src/main/resources/flowers.mp4",
+                "output/thankyou.mp4"
             };
             
             // Output path for the merged video
-            String outputFilePath = "output/mergedTrial1woaahhhhh.mp4";
+            String outputFilePath = "output/merged_video_processed.mp4";
 
             mergeVideos(inputVideos, outputFilePath);
         } catch (Exception e) {
