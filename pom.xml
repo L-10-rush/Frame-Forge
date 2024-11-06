@@ -91,7 +91,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ssn.video.filters.FadeFilter</mainClass>
+                    <mainClass>ssn.video.editor.Gui</mainClass>
                     <arguments>
                         <argument>--module-path</argument>
                         <argument>${java.home}/lib</argument>
