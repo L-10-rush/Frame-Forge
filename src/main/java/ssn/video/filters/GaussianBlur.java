@@ -20,13 +20,13 @@ public class GaussianBlur extends BaseFilter{
     private int endTime;
 
     public GaussianBlur(int kernelSize){
-        if (kernelSize%2==0) throw new IllegalArgumentException("KERNEL SIZE MUST BE ODD");
+        if (kernelSize%2==0) kernelSize++;
         this.kernelSize = kernelSize;
         this.startTime = 0;
         this.endTime = 0;
     }
     public GaussianBlur(int kernelSize, int startTime, int endTime){
-        if (kernelSize%2==0) throw new IllegalArgumentException("KERNEL SIZE MUST BE ODD");
+        if (kernelSize%2==0) kernelSize++;
         this.kernelSize = kernelSize;
         this.startTime = startTime;
         this.endTime = endTime;

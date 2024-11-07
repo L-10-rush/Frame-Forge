@@ -46,7 +46,7 @@ public class FadeFilter extends BaseFilter {
                 recorder.setFormat("mp4");
                 int frameRate = (int) grabber.getFrameRate();
                 recorder.setFrameRate(frameRate);
-                recorder.setPixelFormat(avutil.AV_PIX_FMT_YUVJ420P);
+                recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P);
                 recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
                 recorder.start();
 
@@ -54,7 +54,7 @@ public class FadeFilter extends BaseFilter {
                 int endFrame = endTime * frameRate;
 
                 FFmpegFrameFilter filter = new FFmpegFrameFilter("fade=" + fadeType + ":" + startFrame + ":" + endFrame + 
-                                                            ",format=yuvj420p", grabber.getImageWidth(), grabber.getImageHeight());
+                                                            ",format=yuv420p", grabber.getImageWidth(), grabber.getImageHeight());
                 filter.start();
 
                 Frame frame;
@@ -80,7 +80,7 @@ public class FadeFilter extends BaseFilter {
 
     public static void main(String[] args) {
         FadeFilter fader = new FadeFilter(0, 3, "in");
-        fader.applyFilter("Kratosyan.mp4");
+        fader.applyFilter("kratosyan.mp4");
     }
 
 }

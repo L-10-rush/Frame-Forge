@@ -91,7 +91,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ssn.video.features.VideoMerger</mainClass>
+                    <mainClass>ssn.video.filters.FadeFilter</mainClass>
                     <arguments>
                         <argument>--module-path</argument>
                         <argument>${java.home}/lib</argument>

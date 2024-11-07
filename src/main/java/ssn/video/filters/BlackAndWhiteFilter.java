@@ -31,7 +31,7 @@ public class BlackAndWhiteFilter extends BaseFilter {
             return;
         }
 
-        File outputFile = new File("output/bnwchoose.mp4");
+        File outputFile = new File("output/"+inputFilePath);
 
         try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFile)) {
             grabber.start();
@@ -67,8 +67,5 @@ public class BlackAndWhiteFilter extends BaseFilter {
         }
     }
 
-    public static void main(String[] args) {
-        BlackAndWhiteFilter bnw = new BlackAndWhiteFilter();
-        bnw.applyFilter("Video-Placeholder.mp4");
-    }
+    private void applyFilterToVideo(File inputFile, File outputFile){}
 }
