@@ -76,11 +76,11 @@ public class Gui extends Application {
 
         // Control Buttons
 
-        Image playIcon = new Image("file:/Users/vbaalaadityaa/Downloads/MiniProject/src/main/resources/icons/play.png",24, 24, true, true); 
-        Image pauseIcon = new Image("file:/Users/vbaalaadityaa/Downloads/MiniProject/src/main/resources/icons/pause.png",24, 24, true, true);
-        Image stopIcon = new Image("file:/Users/vbaalaadityaa/Downloads/MiniProject/src/main/resources/icons/stop.png",24, 24, true, true);
-        Image openFileIcon = new Image("file:/Users/vbaalaadityaa/Downloads/MiniProject/src/main/resources/icons/open_file.png",24, 24, true, true);
-        Image applyFilterIcon = new Image("file:/Users/vbaalaadityaa/Downloads/MiniProject/src/main/resources/icons/filter.png",24, 24, true, true);
+        Image playIcon = new Image("https://github.com/L-10-rush/Frame-Forge/blob/b66117977e56f206ed96f21879fc189af7bcb840/src/main/resources/play.png",24, 24, true, true); 
+        Image pauseIcon = new Image("https://github.com/L-10-rush/Frame-Forge/blob/b66117977e56f206ed96f21879fc189af7bcb840/src/main/resources/pause.png",24, 24, true, true);
+        Image stopIcon = new Image("https://github.com/L-10-rush/Frame-Forge/blob/b66117977e56f206ed96f21879fc189af7bcb840/src/main/resources/stop.png",24, 24, true, true);
+        Image openFileIcon = new Image("https://github.com/L-10-rush/Frame-Forge/blob/b66117977e56f206ed96f21879fc189af7bcb840/src/main/resources/open_file.png",24, 24, true, true);
+        Image applyFilterIcon = new Image("https://github.com/L-10-rush/Frame-Forge/blob/b66117977e56f206ed96f21879fc189af7bcb840/src/main/resources/filter.png",24, 24, true, true);
 
         Button playButton = new Button();
         playButton.setGraphic(new ImageView(playIcon));

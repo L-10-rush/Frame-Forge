@@ -23,46 +23,63 @@
 
     <!-- Dependencies -->
     <dependencies>
-        <!-- JavaFX Dependencies -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
+    <!-- JavaFX Dependencies -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-media</artifactId>
+        <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>${javafx.version}</version>
+    </dependency>
 
-        <!-- Existing Dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>javacv-platform</artifactId>
-            <version>1.5.10</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>opencv-platform</artifactId>
-            <version>4.9.0-1.5.10</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>ffmpeg-platform</artifactId>
-            <version>6.1.1-1.5.10</version>
-        </dependency>
-    </dependencies>
+    <!-- Existing Dependencies -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+    </dependency>
+    <!--the old version added to check-->
+
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>javacv-platform</artifactId>
+        <version>1.5.10</version> <!-- Replace with the latest version if necessary -->
+    </dependency>
+
+
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>javacv-platform</artifactId>
+        <version>1.5.10</version>
+    </dependency>
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>opencv-platform</artifactId>
+        <version>4.9.0-1.5.10</version>
+    </dependency>
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>ffmpeg-platform</artifactId>
+        <version>6.1.1-1.5.10</version>
+    </dependency>
+
+    <!-- TensorFlow Dependencies -->
+    <dependency>
+        <groupId>org.tensorflow</groupId>
+        <artifactId>tensorflow-core-platform</artifactId>
+        <version>0.4.0</version>
+    </dependency>
+</dependencies>
+
 
     <!-- Build configuration -->
     <build>
@@ -91,7 +108,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ssn.video.editor.Gui</mainClass>
+                    <mainClass>ssn.video.filters.FadeFilter</mainClass>
                     <arguments>
                         <argument>--module-path</argument>
                         <argument>${java.home}/lib</argument>
