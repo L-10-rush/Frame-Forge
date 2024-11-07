@@ -1,10 +1,18 @@
 package ssn.video.editor;
 
+import ssn.video.features.VideoMerger;
+import ssn.video.filters.GaussianBlur;
+
+import java.util.*;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.layout.Region;
 import javafx.application.Application;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
@@ -72,35 +81,11 @@ public class Gui extends Application {
         centerLayout.setAlignment(Pos.CENTER);
 
         // Control Buttons
-
-        Image playIcon = new Image("file:src/main/resources/play.png",24, 24, true, true); 
-        Image pauseIcon = new Image("file:src/main/resources/pause.png",24, 24, true, true);
-        Image stopIcon = new Image("file:src/main/resources/stop.png",24, 24, true, true);
-        Image openFileIcon = new Image("file:src/main/resources/open_file.png",24, 24, true, true);
-        Image applyFilterIcon = new Image("file:src/main/resources/filter.png",24, 24, true, true);
-
-        Button playButton = new Button();
-        playButton.setGraphic(new ImageView(playIcon));
-
-        Button pauseButton = new Button();
-        pauseButton.setGraphic(new ImageView(pauseIcon));
-
-        Button stopButton = new Button();
-        stopButton.setGraphic(new ImageView(stopIcon));
-
-        Button openButton = new Button();
-        openButton.setGraphic(new ImageView(openFileIcon));
-
-        Button applyFilterButton = new Button();
-        applyFilterButton.setGraphic(new ImageView(applyFilterIcon));
-
-        Button mergeButton = new Button("Merge");
-        mergeButton.setVisible(true);
-
-
-        
-
-        // Arrange buttons in a horizontal box
+        Button playButton = new Button("Play");
+        Button pauseButton = new Button("Pause");
+        Button stopButton = new Button("Stop");
+        Button openButton = new Button("Open File");
+        Button applyFilterButton = new Button("Apply Filter");
 
         // Timestamp Label
         timestampLabel = new Label("Time: 00:00 / 00:00             ");
