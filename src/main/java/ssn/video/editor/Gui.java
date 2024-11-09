@@ -86,6 +86,7 @@ public class Gui extends Application {
         Button stopButton = new Button("Stop");
         Button openButton = new Button("Open File");
         Button applyFilterButton = new Button("Apply Filter");
+        Button mergeButton = new Button("Merge");
 
         // Timestamp Label
         timestampLabel = new Label("Time: 00:00 / 00:00             ");

@@ -16,8 +16,6 @@ import org.bytedeco.opencv.opencv_core.Size;
 
 public class GaussianBlur extends BaseFilter{
     private int kernelSize;
-    private int startTime;
-    private int endTime;
 
     public GaussianBlur(int kernelSize){
         if (kernelSize%2==0) kernelSize++;
@@ -34,9 +32,10 @@ public class GaussianBlur extends BaseFilter{
     public GaussianBlur(int startTime, int endTime){
         this.startTime = startTime;
         this.endTime = endTime;
+        this.kernelSize = 35;
     }
     public GaussianBlur(){
-        this.kernelSize = 15;
+        this.kernelSize = 35;
         this.startTime = 0;
         this.endTime = 0;
     }

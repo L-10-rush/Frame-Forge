@@ -11,6 +11,9 @@ import org.bytedeco.ffmpeg.global.avutil;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 
 public abstract class BaseFilter implements Filter{
+    protected int startTime;
+    protected int endTime;
+
     protected void setupRecorder(FFmpegFrameRecorder recorder, double frameRate) throws Exception {
         recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
         recorder.setFormat("mp4");
@@ -49,11 +52,14 @@ public abstract class BaseFilter implements Filter{
             System.out.println("Resource not found: " + resourceName);
             return null;
         }
-        String extension = resourceName.substring(resourceName.lastIndexOf("."));
-        File tempFile = Files.createTempFile("temp-", extension).toFile();
+        
+        String fileName = resourceName.substring(resourceName.lastIndexOf("/") + 1);
+        File tempFile = Files.createTempFile(fileName, "").toFile();
         Files.copy(resourceStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        
         return tempFile;
     }
+    
 
     @Override
     public abstract void applyFilter(String inputFilePath);

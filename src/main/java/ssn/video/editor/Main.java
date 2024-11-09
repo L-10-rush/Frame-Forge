@@ -15,7 +15,7 @@ public class Main {
             int endSeconds = 10;
 
             // Call the VideoTrimmer to trim the video
-            VideoTrimmer.trimVideo(inputFilePath, outputFilePath, startSeconds, endSeconds);
+            VideoTrimmer.trimVideo(inputFilePath, startSeconds, endSeconds);
             
             System.out.println("Video trimmed successfully!");
         } catch (Exception e) {
