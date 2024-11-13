@@ -58,8 +58,8 @@ public class VideoEditorCLI {
                         }
                     case 3 -> {
                         System.out.println("Applying Brightness Filter...");
-                        filter = new DenoisingFilter(7, 21);
-                        filter.applyFilter(inputFileName);
+                        // filter = new DenoisingFilter(7, 21);
+                        // filter.applyFilter(inputFileName);
                         System.out.println("Brigtness filter applied successfully.");
                     }
                     case 4 -> {
