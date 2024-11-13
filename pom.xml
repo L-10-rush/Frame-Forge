@@ -70,17 +70,68 @@
         <version>1.19.2</version>
     </dependency>
 
+
+
     <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>javacv-platform</artifactId>
+        <version>1.5.10</version>
+    </dependency>
+    <!-- <dependency>
         <groupId>org.bytedeco</groupId>
         <artifactId>opencv-platform</artifactId>
         <version>4.9.0-1.5.10</version>
-    </dependency>
+    </dependency> -->
+    <!-- https://mvnrepository.com/artifact/org.bytedeco/opencv -->
     <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>opencv</artifactId>
+        <version>4.7.0-1.5.9</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.bytedeco/javacpp -->
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>javacpp</artifactId>
+        <version>1.5.10</version>
+    </dependency>
+
+
+    <!-- <dependency>
         <groupId>org.bytedeco</groupId>
         <artifactId>ffmpeg-platform</artifactId>
         <version>6.1.1-1.5.10</version>
+    </dependency> -->
+    <!-- https://mvnrepository.com/artifact/org.bytedeco/ffmpeg -->
+    <!-- https://mvnrepository.com/artifact/org.bytedeco/ffmpeg -->
+    <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>ffmpeg</artifactId>
+        <version>6.0-1.5.9</version>
     </dependency>
+
+
+
+    <!-- TensorFlow Dependencies -->
+    <dependency>
+        <groupId>org.tensorflow</groupId>
+        <artifactId>tensorflow-core-platform</artifactId>
+        <version>0.4.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20240303</version>
+    </dependency>
+
 </dependencies>
+
+
+
+
+  
+
+
 
     <!-- Build configuration -->
     <build>
@@ -109,7 +160,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ssn.video.filters.DenoisingFilter</mainClass>
+                    <mainClass>ssn.video.features.videosummary.VideoFrameDescription</mainClass>
                     <arguments>
                         <argument>--module-path</argument>
                         <argument>${java.home}/lib</argument>
