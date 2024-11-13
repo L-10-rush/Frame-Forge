@@ -21,117 +21,61 @@
         <javafx.version>20.0.1</javafx.version>  <!-- Specify JavaFX version -->
     </properties>
 
-    <!-- <repositories>
-        <repository>
-            <id>microsoft-onnx</id>
-            <url>https://github.com/microsoft/onnxruntime</url>
-        </repository>
-    </repositories> -->
-
 
     <!-- Dependencies -->
     <dependencies>
-    <!-- JavaFX Dependencies -->
-    <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-controls</artifactId>
-        <version>${javafx.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-media</artifactId>
-        <version>${javafx.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-graphics</artifactId>
-        <version>${javafx.version}</version>
-    </dependency>
-
-    <!-- Existing Dependencies -->
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
-    </dependency>
-    <!--the old version added to check-->
-
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>javacv-platform</artifactId>
-        <version>1.5.10</version> <!-- Replace with the latest version if necessary -->
-    </dependency>
-
-   <!-- https://mvnrepository.com/artifact/com.microsoft.onnxruntime/onnxruntime -->
-    <dependency>
-        <groupId>com.microsoft.onnxruntime</groupId>
-        <artifactId>onnxruntime</artifactId>
-        <version>1.19.2</version>
-    </dependency>
-
-
-
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>javacv-platform</artifactId>
-        <version>1.5.10</version>
-    </dependency>
-    <!-- <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>opencv-platform</artifactId>
-        <version>4.9.0-1.5.10</version>
-    </dependency> -->
-    <!-- https://mvnrepository.com/artifact/org.bytedeco/opencv -->
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>opencv</artifactId>
-        <version>4.7.0-1.5.9</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.bytedeco/javacpp -->
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>javacpp</artifactId>
-        <version>1.5.10</version>
-    </dependency>
-
-
-    <!-- <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>ffmpeg-platform</artifactId>
-        <version>6.1.1-1.5.10</version>
-    </dependency> -->
-    <!-- https://mvnrepository.com/artifact/org.bytedeco/ffmpeg -->
-    <!-- https://mvnrepository.com/artifact/org.bytedeco/ffmpeg -->
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>ffmpeg</artifactId>
-        <version>6.0-1.5.9</version>
-    </dependency>
-
-
-
-    <!-- TensorFlow Dependencies -->
-    <dependency>
-        <groupId>org.tensorflow</groupId>
-        <artifactId>tensorflow-core-platform</artifactId>
-        <version>0.4.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.json/json -->
-    <dependency>
-        <groupId>org.json</groupId>
-        <artifactId>json</artifactId>
-        <version>20240303</version>
-    </dependency>
-
-</dependencies>
-
-
-
-
-  
-
-
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.7.0-1.5.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacpp</artifactId>
+            <version>1.5.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <version>6.0-1.5.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>tensorflow-core-platform</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
+    </dependencies>
 
     <!-- Build configuration -->
     <build>
