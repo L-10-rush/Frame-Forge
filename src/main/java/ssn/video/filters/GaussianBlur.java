@@ -65,7 +65,7 @@ public class GaussianBlur extends BaseFilter{
         } else if (isVideoFile(extension) && startTime-endTime != 0) {
             applyBlurToVideoWithTime(inputFile, outputFilePath,startTime, endTime, kernelSize);
         } else {
-            System.out.println("Unsupported file type. Please provide a valid image or video file.");
+            System.out.println("Unsupported file type. Please provide a valid image or video file." + extension);
         }
     }
 

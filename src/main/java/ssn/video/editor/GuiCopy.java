@@ -324,7 +324,6 @@ public class GuiCopy extends Application {
             reloadVideo("/Users/vbaalaadityaa/Downloads/MiniProject/src/main/temp/process.mp4");
             videoFiles.clear();
             videoFiles.add("/Users/vbaalaadityaa/Downloads/MiniProject/src/main/temp/process.mp4");
-
         });
 
 

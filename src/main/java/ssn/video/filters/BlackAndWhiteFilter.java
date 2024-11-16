@@ -67,5 +67,9 @@ public class BlackAndWhiteFilter extends BaseFilter {
         }
     }
 
-    private void applyFilterToVideo(File inputFile, File outputFile){}
+    public static void main(String[] args) {
+        BlackAndWhiteFilter bnw = new BlackAndWhiteFilter();
+        bnw.applyFilter("bnwBaseChoose.mp4");
+    }
+
 }

@@ -52,13 +52,13 @@ public abstract class BaseFilter implements Filter{
             System.out.println("Resource not found: " + resourceName);
             return null;
         }
-        
-        String fileName = resourceName.substring(resourceName.lastIndexOf("/") + 1);
-        File tempFile = Files.createTempFile(fileName, "").toFile();
+        String fileName = "temp_" + resourceName.substring(resourceName.lastIndexOf("/") + 1);
+        File tempFile = new File(System.getProperty("java.io.tmpdir"), fileName);
         Files.copy(resourceStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        
+    
         return tempFile;
     }
+    
     
 
     @Override

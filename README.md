@@ -7,7 +7,19 @@
 Frame Forge is a light-weight video editing app developed in java. It uses the FFmpeg library to work with videos as frames, and then processes them using openCV ibrary.
 
 ---
-Research about stuff and add things to better compare our Project with existing ones and why is it better.
+
+Below are some comparisions that we made with the existing video editing applications
+
+| Feature                     | **Frame Forge**          | **Clipchamp**         | **OpenShot**        |
+|-----------------------------|---------------------------|------------------------|----------------------|
+| **Startup Time**            | 4.38 seconds              | 29.2 seconds          | 13 seconds          |
+| **Open Source**             | ✅                        | ❌                    | ✅                  |
+| **Unique Filters**          | Periodic Noise Removal    | None                  | None                |
+| **Basic Filters**           | Fade In, Fade Out, Gaussian Blur, BnW | Fade, Blur, Saturate and more | Fade, Crop, Color Adjustment and more|
+| **Resource Efficiency**     | Frame-by-frame processing, low buffer storage usage | High memory consumption | Moderate CPU and memory usage |
+| **Video Summarization**     | GPT-based API integration | ❌                    | ❌                  |
+| **User Interface**          | Simple, minimalistic      | Feature-rich          | Feature-rich        |
+
 ---
 
 - [Installation](#installation)
@@ -57,15 +69,29 @@ mvn exec:java
 
 ### Video Summarization
 
-images demonstrating video summarization
+images demonstrating video summarization  
 
 ### Basic Filters
 
-images demonstrating basic filters
+Applying a basic Black and White Filter
+Before-<br>
+![image1](src/main/resources/image.png)
+
+
+After-<br>
+![image2](src/main/resources/image2.png)
+
 
 ### Advanced Filters
 
-images demonstrating advanced filters
+As of now only 1 Advanced filter is available. That is a periodic noise removal filter.
+Applying it onto a frame like the one below<br>
+![noisy image](src/main/resources/period_input.jpg)
+
+
+we get a much smoother frame<br>
+![smoother image](src/main/resources/denoised_result.jpg)
+
 
 
 ## TODO
